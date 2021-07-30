@@ -1,0 +1,14 @@
+files.upload()
+EM_tweets = pd.read_csv('Elon Musk.csv')
+pd.set_option('display.max_colwidth', None)
+
+features = EM_tweets.iloc[:, 1].values
+labels = EM_tweets.iloc[:, 2].values
+y = 1-pd.factorize(labels)[0] #make positive =1 and negative =0
+
+data = {'features': features,
+        'labels': y}
+
+EM_df = pd.DataFrame(data, columns=['features', 'labels'])
+
+EM_df.head()
