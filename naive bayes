@@ -1,0 +1,44 @@
+nwds=500
+cvect = CountVectorizer(max_features=nwds, stop_words = 'english')
+X1 = cvect.fit_transform(processed_features)
+X1 = X1.toarray()
+
+#Number of times word w appears in revewis of class c
+def count(w,c,X,y):
+    tmp = X[:,w]
+    tmp = tmp[y==c].sum()
+    return tmp
+
+counts = np.zeros((nwds,2))   
+for c in range(2):
+    for w in range(nwds):
+        counts[w,c] = count(w,c,X1,y)
+        
+for w in range(10):
+    print('{}, positive = {}, negative ={}'.format(words[w],counts[w,1],counts[w,0]))   
+    
+    
+#loglikelihoods with +1 smoothing
+
+loglikes = np.zeros((nwds,2))
+
+for c in range(2): #2 classes
+    for w in range(nwds):
+        loglikes[w,c] = np.log((counts[w,c]+1)/(counts[:,c]+1).sum() )
+        
+#predictions
+#if negatove loglike bigger than positive loglike, predict positive
+
+ntxt = X1.shape[0]
+preds=np.zeros(ntxt)
+for i in range(ntxt):
+    ll0=(X1[i]*loglikes[:,0]).sum()
+    ll1=(X1[i]*loglikes[:,1]).sum()
+    if ll1>ll0:
+        preds[i]=1
+        
+        
+#mean of error
+
+1-np.abs(preds-y).mean()
+        
