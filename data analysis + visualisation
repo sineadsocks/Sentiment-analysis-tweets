@@ -1,0 +1,9 @@
+EM_df['length'] = EM_df['features'].apply(len)
+fig1 = sns.barplot('labels','length',data = EM_df,palette='PRGn')
+plt.title('Average Tweet Length vs label')
+plot = fig1.get_figure()
+plot.savefig('Barplot.png')
+
+
+EM_tweets['sentiment'].value_counts()
+EM_tweets.sentiment.value_counts().plot(kind='pie', autopct='%.1f', colors=['pink', 'cornflowerblue'])
