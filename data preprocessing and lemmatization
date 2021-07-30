@@ -1,0 +1,22 @@
+processed_features = []
+
+for sentence in range(0,len(features)):
+
+  processed_feature = re.sub('@[^\s]+', ' ', str(features[sentence]))  #remove usernames
+
+  processed_feature = re.sub(r'\s+[a-zA-Z]\s+', ' ', processed_feature) #remove single characters
+
+  processed_feature = re.sub(r"\^[a-zA-Z ]\s+", ' ', processed_feature) # remove single charactres from start
+
+  processed_feature = re.sub(r'\s+', ' ', processed_feature, flags = re.I) #make multiple spaces into single space
+
+  processed_feature = re.sub(r'http\S+',' ', processed_feature)  #remove http/s links
+
+  processed_feature = re.sub(r"[^a-zA-Z\s\(\-:\)\\\/\];=’#]","", processed_feature)   #remove remaning special characters
+
+  processed_feature = processed_feature.lower() # make into lowercase
+
+  processed_feature = re.sub(r'^rt\s+',' ', processed_feature) #remove rt (retweet)
+
+  processed_features.append(processed_feature)
+  
